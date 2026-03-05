@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Material de Estudo Digital - Ordenação de Vetores</title>
+</head>
+
+<body>
+
+    <h1>Material de Estudo Digital</h1>
+    <h2>Classificação e Ordenação de Vetores</h2>
+
+    <hr>
+
+    <h3>1. O que é um Algoritmo?</h3>
+    <p>
+        Um algoritmo é uma sequência lógica de passos para resolver um problema.
+        Na programação, usamos algoritmos para organizar dados, realizar cálculos
+        e automatizar processos.
+    </p>
+
+    <h3>2. O que é um Vetor?</h3>
+    <p>
+        Um vetor é uma estrutura de dados que armazena vários valores do mesmo tipo.
+        Cada valor é armazenado em uma posição identificada por um índice.
+    </p>
+
+    <pre>
+Exemplo de vetor:
+
+Posição:  0   1   2   3
+Valores: [5] [2] [8] [1]
+    </pre>
+
+    <h3>3. Por que ordenar um vetor?</h3>
+    <ul>
+        <li>Facilita buscas</li>
+        <li>Organiza cadastros</li>
+        <li>Melhora a eficiência de sistemas</li>
+        <li>Permite criação de rankings</li>
+    </ul>
+
+    <h3>4. Algoritmo Bubble Sort</h3>
+    <p>
+        O Bubble Sort compara elementos vizinhos e troca suas posições
+        caso estejam fora de ordem.
+    </p>
+
+    <pre>
+Pseudocódigo:
+
+para i de 0 até tamanho-1
+   para j de 0 até tamanho-1-i
+      se vetor[j] > vetor[j+1]
+         trocar valores
+    </pre>
+
+    <h3>5. Complexidade</h3>
+    <p>
+        O Bubble Sort possui complexidade O(n²), ou seja,
+        quanto maior o vetor, maior será o número de comparações.
+    </p>
+
+    <hr>
+
+    <h2>Formulário de Avaliação</h2>
+
+    <form>
+
+        <label>1. O que é um algoritmo?</label><br>
+        <textarea rows="3" cols="50"></textarea><br><br>
+
+        <label>2. O que é um vetor?</label><br>
+        <textarea rows="3" cols="50"></textarea><br><br>
+
+        <label>3. Qual a função da ordenação?</label><br>
+        <textarea rows="3" cols="50"></textarea><br><br>
+
+        <label>4. O Bubble Sort é eficiente para grandes volumes de dados?</label><br>
+        <input type="radio" name="eficiencia"> Sim<br>
+        <input type="radio" name="eficiencia"> Não<br><br>
+
+        <label>5. Avalie o material didático:</label><br>
+        <select>
+            <option>Excelente</option>
+            <option>Bom</option>
+            <option>Regular</option>
+            <option>Ruim</option>
+        </select>
+        <br><br>
+
+        <label>6. O conteúdo foi claro?</label><br>
+        <input type="checkbox"> Sim<br>
+        <input type="checkbox"> Parcialmente<br>
+        <input type="checkbox"> Não<br><br>
+
+        <label>7. Comentários ou sugestões:</label><br>
+        <textarea rows="4" cols="50"></textarea><br><br>
+
+        <input type="submit" value="Enviar Avaliação">
+        <input type="reset" value="Limpar">
+
+    </form>
+
+    <hr>
+
+    <p><small>Desenvolvido para a disciplina de Desenvolvimento Web</small></p>
+
+</body>
+</html>
