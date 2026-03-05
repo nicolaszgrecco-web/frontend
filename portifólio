@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> PORTFÓLIO - Aluno Nicolas </title>
+</head>
+
+<body>
+    <div class="header">
+        <header>
+            <h1> MEU PORTFÓLIO </h1>
+            <p> Bem vindos a minha pagina </p>
+        </header>
+    </div>
+
+    <nav>
+        <a href="#sobre" target="_self">Sobre</a>
+        <a href="#projetos" target="_self">Projetos</a>
+        <a href="#Contato" target="_self">Contato</a>
+    </nav>
+
+    <div id="main">
+        <section id="sobre">
+            <h3> Sobre o Aluno nicolas grecco </h3>
+            <p> Sou eu <b> o melhor </b> <strong> e mais pika </strong> aluno <i> legal </i> </p>
+        </section>
+
+        <selection id="projetos">
+            <article>
+                <h4> Em desenvolvimento </h4>
+                <p> ... </p>
+            </article>
+
+            <article>
+                <h4> projeto recuperacao💪 </h4>
+            </article>
+            </selection>
+
+<section id="Contato">
+    <form>
+        <fieldset>
+            <legend> Envie uma mensagem 💬 </legend>
+
+            <label> for="nome">Nome </label><br>
+            <input type="text" id="Nome" name="Nome"><br><br>
+
+            <label>Genero</label><br>
+            <input type="radio" name="Genero">Masculino
+            <input type="radio" name="Genero">Feminino<br><br>
+
+            <label> Interesse </label><br>
+            <input type="checkbox">Dinheiro
+            <input type="checkbox">Viagens
+            <input type="checkbox">Carro<br><br>
+
+            <label></label>
+            
+            <input type="text" id="nome" name="nome"><br><br>
+
+            <label>Gênero</label><br>
+            <input type="radio" name="genero">Masculino
+            <input type="radio" name="genero">Feminino<br><br>
+
+<label>Interesse</label><br>
+<input type="checkbox" >Dinheiro
+<input type="checkbox" >Viagens
+<input type="checkbox" >Motos<br><br>
+
+<label>Linguagem Favorita </label><br>
+<input list="linguagens" name="linguagem">
+<datalist id="linguagens">
+    <option value="JAVA">
+    <option value="C">
+    <option value="Python">
+    <option value="JS">
+</datalist><br><br>
+
+<input type="submit" value="enviar">    
+
+        </fieldset>
+    </form>
+</section>
+
+</div>
+</body>
+</html>
