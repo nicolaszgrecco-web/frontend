@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Pet Virtual</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body 
+    style=" transition: background-image 1s ease-in-out;" 
+    style="
+        background-image: url('background.png'); 
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+        height: 100vh;
+    "
+>
+
+    <div id="stars"></div>
+
+    <img id="b" src="b_n.png"/>
+
+    <img 
+        id="btn" 
+        src="btn.png" 
+        onclick="alimentar()" 
+        style="cursor: pointer; width:150px;"
+    />
+
+    <button onclick="trocarFundo()">🌙</button>
+
+    <label class="toggle text-base-content">
+        <input type="checkbox" onclick="trocarFundo()" 🌞 🌙/>
+    </label>
+
+    <img id="ferlini" src="ferlini.png"
+     style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        display: none;
+">
+
+    <div onclick="mostrarFerlini()"
+     style="
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+">
+</div>
+
+</body>
+
+<script src="script.js"></script>
+</html>
