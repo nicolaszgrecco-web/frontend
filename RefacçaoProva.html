@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copa do Mundo 2026 - Prova Completa</title>
+
+    <style>
+        body {
+            background-color: #f4f8fb;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #333;
+        }
+
+        nav {
+            background-color: #dbeafe;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        section {
+            background-color: #eaf4ff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        section p strong {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: none;
+            background-color: #1e3a8a;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 320px;
+            margin: 30px auto;
+            padding: 15px;
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .card-text {
+            font-weight: bold;
+            color: #111;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#organizacao">Organização</a>
+        <a href="#formato">Formato</a>
+        <a href="#impacto">Impacto</a>
+    </nav>
+
+    <!-- QUESTÃO 01 -->
+    <section id="organizacao">
+        <p><strong>🌍 Organização e Sedes</strong></p>
+        <p>
+            A Copa do Mundo FIFA de 2026 será a primeira edição realizada em três países:
+            Estados Unidos, Canadá e México, sendo a maior da história em número de sedes.
+        </p>
+    </section>
+
+    <section id="formato">
+        <p><strong>⚽ Novo Formato</strong></p>
+        <p>
+            O torneio contará com 48 seleções, aumentando o número de jogos e promovendo maior
+            inclusão de países no evento.
+        </p>
+    </section>
+
+    <section id="impacto">
+        <p><strong>🏆 Expectativas e Impacto</strong></p>
+        <p>
+            A edição de 2026 terá grande impacto econômico e cultural, sendo uma das Copas mais
+            assistidas da história.
+        </p>
+    </section>
+
+    <!-- QUESTÃO 03 -->
+    <div style="text-align:center;">
+        <button onclick="mostrarImagem()">Mostrar Tabela de Jogos</button>
+    </div>
+
+    <!-- QUESTÃO 04 -->
+    <div class="card">
+
+        <img id="imagem-jogador" src="img/placeholder.png" alt="Jogador">
+
+        <p>Nome: <span id="nome" class="placeholder">---</span></p>
+        <p>Data: <span id="data" class="placeholder">---</span></p>
+        <p>Altura: <span id="altura" class="placeholder">---</span></p>
+        <p>Posição: <span id="posicao" class="placeholder">---</span></p>
+        <p>Rank: <span id="rank" class="placeholder">---</span></p>
+
+        <button onclick="revelar()">Revelar</button>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        // QUESTÃO 03
+        function mostrarImagem() {
+            var img = document.createElement("img");
+            img.src = "Tabela_Jogos.png"; // ajuste aqui se necessário
+            img.style.width = "500px";
+            img.style.display = "block";
+            img.style.margin = "20px auto";
+
+            document.body.appendChild(img);
+        }
+
+        // QUESTÃO 04
+        function revelar() {
+
+            document.getElementById("imagem-jogador").src = "img/_vinicius_junior.png";
+
+            document.getElementById("nome").textContent = "Vinícius José Paixão de Oliveira Júnior";
+            document.getElementById("data").textContent = "12/07/2000 (25 anos)";
+            document.getElementById("altura").textContent = "1,76 m";
+            document.getElementById("posicao").textContent = "Ponta-esquerda / Atacante";
+            document.getElementById("rank").textContent = "9,5";
+
+            var spans = document.querySelectorAll(".placeholder");
+
+            spans.forEach(function(el) {
+                el.classList.remove("placeholder");
+                el.classList.add("card-text");
+            });
+        }
+
+    </script>
+
+</body>
+</html>
