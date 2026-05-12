@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Validador de CPF</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 52px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.88rem;
+      margin-bottom: 32px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      text-align: center;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    input::placeholder {
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.3);
+      font-size: 1rem;
+    }
+
+    input:focus {
+      border-color: #4f8ef7;
+      background: rgba(79, 142, 247, 0.08);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #4f8ef7, #7b5ea7);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .result.valid {
+      display: flex;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1.5px solid rgba(34, 197, 94, 0.5);
+      color: #4ade80;
+    }
+
+    .result.invalid {
+      display: flex;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1.5px solid rgba(239, 68, 68, 0.5);
+      color: #f87171;
+    }
+
+    .result-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .result-text strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 2px;
+    }
+
+    .result-text span {
+      font-size: 0.82rem;
+      opacity: 0.75;
+      font-weight: 400;
+    }
+
+    .cpf-display {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🪪</div>
+    <h1>Validador de CPF</h1>
+    <p class="subtitle">Digite o CPF para verificar sua autenticidade</p>
+
+    <div class="input-wrapper">
+      <input
+        type="text"
+        id="cpfInput"
+        placeholder="000.000.000-00"
+        maxlength="14"
+        inputmode="numeric"
+      />
+    </div>
+
+    <button onclick="validarCPF()">Validar CPF</button>
+
+    <div class="result" id="resultado">
+      <div class="result-icon" id="resultIcon"></div>
+      <div class="result-text">
+        <strong id="resultTitle"></strong>
+        <span id="resultMsg"></span>
+      </div>
+    </div>
+
+    <div class="cpf-display" id="cpfFormatado"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById('cpfInput');
+
+    // Máscara automática
+    input.addEventListener('input', () => {
+      let v = input.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9)      v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      input.value = v;
+    });
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') validarCPF();
+    });
+
+    function calcularDigito(numeros, pesoInicial) {
+      let soma = 0;
+      for (let i = 0; i < numeros.length; i++) {
+        soma += numeros[i] * (pesoInicial - i);
+      }
+      const resto = (soma * 10) % 11;
+      return resto === 10 ? 0 : resto;
+    }
+
+    function validarCPF() {
+      const resultado  = document.getElementById('resultado');
+      const icon       = document.getElementById('resultIcon');
+      const title      = document.getElementById('resultTitle');
+      const msg        = document.getElementById('resultMsg');
+      const formatado  = document.getElementById('cpfFormatado');
+
+      // Remove máscara
+      const raw = input.value.replace(/\D/g, '');
+
+      resultado.className = 'result';
+
+      // Verificações básicas
+      if (raw.length !== 11) {
+        mostrarErro(resultado, icon, title, msg, 'CPF incompleto', 'Digite todos os 11 dígitos do CPF.');
+        formatado.textContent = '';
+        return;
+      }
+
+      // Sequências inválidas (ex: 111.111.111-11)
+      if (/^(\d)\1{10}$/.test(raw)) {
+        mostrarErro(resultado, icon, title, msg, 'CPF Inválido', 'Sequências repetidas não são permitidas.');
+        formatado.textContent = '';
+        return;
+      }
+
+      const digitos = raw.split('').map(Number);
+
+      // 1º dígito verificador
+      const d1Calc = calcularDigito(digitos.slice(0, 9), 10);
+      if (d1Calc !== digitos[9]) {
+        mostrarErro(resultado, icon, title, msg, 'CPF Inválido', '1º dígito verificador não confere.');
+        formatado.textContent = '';
+        return;
+      }
+
+      // 2º dígito verificador
+      const d2Calc = calcularDigito(digitos.slice(0, 10), 11);
+      if (d2Calc !== digitos[10]) {
+        mostrarErro(resultado, icon, title, msg, 'CPF Inválido', '2º dígito verificador não confere.');
+        formatado.textContent = '';
+        return;
+      }
+
+      // Válido!
+      resultado.classList.add('valid');
+      icon.textContent  = '✅';
+      title.textContent = 'CPF Válido';
+      msg.textContent   = 'Os dois dígitos verificadores conferem.';
+      formatado.textContent = `CPF: ${raw.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}`;
+    }
+
+    function mostrarErro(el, icon, title, msg, t, m) {
+      el.classList.add('invalid');
+      icon.textContent  = '❌';
+      title.textContent = t;
+      msg.textContent   = m;
+    }
+  </script>
+</body>
+</html>
