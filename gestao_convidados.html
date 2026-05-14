@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infinity Bank - Lista de Convidados VIP</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 16px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .card-header h1 {
+      font-size: 20px;
+      color: #1a1a2e;
+    }
+
+    .card-header p {
+      font-size: 13px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-area input:focus {
+      border-color: #4a90d9;
+    }
+
+    .input-area button {
+      padding: 10px 16px;
+      background-color: #1a1a2e;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .input-area button:hover {
+      background-color: #2e2e50;
+    }
+
+    #guest-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    #guest-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e8e8e8;
+      gap: 8px;
+    }
+
+    #guest-list li:last-child {
+      border-bottom: none;
+    }
+
+    .guest-name {
+      flex: 1;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .guest-name.riscado {
+      text-decoration: line-through;
+      color: #aaa;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-group button {
+      padding: 6px 10px;
+      font-size: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-concluir {
+      background-color: #e6f4ea;
+      color: #2e7d32;
+    }
+
+    .btn-concluir:hover {
+      background-color: #c8e6c9;
+    }
+
+    .btn-editar {
+      background-color: #fff8e1;
+      color: #f57f17;
+    }
+
+    .btn-editar:hover {
+      background-color: #ffecb3;
+    }
+
+    .btn-excluir {
+      background-color: #fdecea;
+      color: #c62828;
+    }
+
+    .btn-excluir:hover {
+      background-color: #f8c5c1;
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: #bbb;
+      font-size: 13px;
+      padding: 16px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <h1>🏦 Infinity Bank</h1>
+    <p>Lista de Convidados VIP — Evento de Inauguração</p>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="input-nome" placeholder="Nome do convidado..." />
+    <button onclick="adicionarConvidado()">Adicionar</button>
+  </div>
+
+  <ul id="guest-list">
+    <li class="empty-msg" id="empty-msg">Nenhum convidado adicionado.</li>
+  </ul>
+</div>
+
+<script>
+  const inputNome = document.getElementById('input-nome');
+  const lista = document.getElementById('guest-list');
+  const emptyMsg = document.getElementById('empty-msg');
+
+  inputNome.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') adicionarConvidado();
+  });
+
+  function atualizarMensagemVazia() {
+    const itens = lista.querySelectorAll('li:not(.empty-msg)');
+    emptyMsg.style.display = itens.length === 0 ? 'block' : 'none';
+  }
+
+  function adicionarConvidado() {
+    const nome = inputNome.value.trim();
+    if (!nome) return;
+
+    const li = document.createElement('li');
+
+    const span = document.createElement('span');
+    span.classList.add('guest-name');
+    span.textContent = nome;
+
+    const btnConcluir = document.createElement('button');
+    btnConcluir.textContent = '✔ Concluir';
+    btnConcluir.classList.add('btn-concluir');
+    btnConcluir.onclick = function() {
+      span.classList.toggle('riscado');
+    };
+
+    const btnEditar = document.createElement('button');
+    btnEditar.textContent = '✏ Editar';
+    btnEditar.classList.add('btn-editar');
+    btnEditar.onclick = function() {
+      const novoNome = prompt('Editar nome do convidado:', span.textContent);
+      if (novoNome && novoNome.trim() !== '') {
+        span.textContent = novoNome.trim();
+      }
+    };
+
+    const btnExcluir = document.createElement('button');
+    btnExcluir.textContent = '🗑 Excluir';
+    btnExcluir.classList.add('btn-excluir');
+    btnExcluir.onclick = function() {
+      lista.removeChild(li);
+      atualizarMensagemVazia();
+    };
+
+    const btnGroup = document.createElement('div');
+    btnGroup.classList.add('btn-group');
+    btnGroup.appendChild(btnConcluir);
+    btnGroup.appendChild(btnEditar);
+    btnGroup.appendChild(btnExcluir);
+
+    li.appendChild(span);
+    li.appendChild(btnGroup);
+    lista.appendChild(li);
+
+    inputNome.value = '';
+    inputNome.focus();
+    atualizarMensagemVazia();
+  }
+
+  atualizarMensagemVazia();
+</script>
+
+</body>
+</html>
