@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conversor de Temperatura</title>
+
+<style>
+  /* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Card principal */
+.card {
+  background: white;
+  width: 400px;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Cabeçalho */
+.card-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.thermometer-icon {
+  font-size: 40px;
+}
+
+.card-header h1 {
+  margin-top: 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+.card-header p {
+  margin-top: 5px;
+  color: #777;
+  font-size: 14px;
+}
+
+/* Campos */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #444;
+  font-weight: bold;
+}
+
+/* Input */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.input-wrapper input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+}
+
+/* Unidade */
+.unit-badge {
+  background: #4a90e2;
+  color: white;
+  padding: 12px 15px;
+  font-weight: bold;
+}
+
+/* Divisor */
+.divider {
+  text-align: center;
+  font-size: 24px;
+  color: #666;
+}
+
+/* Fórmulas */
+.formula-box {
+  margin-top: 25px;
+  padding: 15px;
+  background: #f1f3f5;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+}
+
+.formula-box span {
+  font-weight: bold;
+  color: #4a90e2;
+}
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="thermometer-icon">🌡️</span>
+      <h1>Conversor de Temperatura</h1>
+      <p>Digite em qualquer campo — atualização em tempo real</p>
+    </div>
+
+    <div class="fields">
+      <!-- Celsius -->
+      <div class="field-group celsius">
+        <label>Celsius</label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="celsius"
+            step="0.1"
+            placeholder="0.00"
+          />
+          <span class="unit-badge">°C</span>
+        </div>
+      </div>
+
+      <!-- Divisor -->
+      <div class="divider"><span>⇅</span></div>
+
+      <!-- Fahrenheit -->
+      <div class="field-group fahrenheit">
+        <label>Fahrenheit</label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="fahrenheit"
+            step="0.1"
+            placeholder="32.00"
+          />
+          <span class="unit-badge">°F</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fórmulas de referência -->
+    <div class="formula-box">
+      <p>
+        <span>°F</span> = (°C × 9/5) + 32
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span>°C</span> = (°F − 32) × 5/9
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const celsiusInput     = document.getElementById('celsius');
+    const fahrenheitInput  = document.getElementById('fahrenheit');
+
+    celsiusInput.addEventListener('input', () => {
+      const c = parseFloat(celsiusInput.value);
+      if (celsiusInput.value === '' || isNaN(c)) {
+        fahrenheitInput.value = '';
+        return;
+      }
+      fahrenheitInput.value = ((c * 9 / 5) + 32).toFixed(2);
+    });
+
+    fahrenheitInput.addEventListener('input', () => {
+      const f = parseFloat(fahrenheitInput.value);
+      if (fahrenheitInput.value === '' || isNaN(f)) {
+        celsiusInput.value = '';
+        return;
+      }
+      celsiusInput.value = ((f - 32) * 5 / 9).toFixed(2);
+    });
+  </script>
+
+</body>
+</html>
