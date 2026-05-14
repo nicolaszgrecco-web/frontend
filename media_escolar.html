@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Média Escolar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+      color: #333333;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      color: #555555;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 14px;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+
+    .notas {
+      display: flex;
+      gap: 10px;
+    }
+
+    .notas div {
+      flex: 1;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #555555;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    button:hover {
+      background-color: #333333;
+    }
+
+    .resultado {
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 4px;
+      display: none;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .aprovado {
+      background-color: #dbeafe;
+      border: 1px solid #93c5fd;
+      color: #1e40af;
+    }
+
+    .exame {
+      background-color: #dcfce7;
+      border: 1px solid #86efac;
+      color: #15803d;
+    }
+
+    .reprovado {
+      background-color: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #b91c1c;
+    }
+
+    .erro {
+      color: red;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🎓 Média Escolar</h1>
+
+  <label for="nomeAluno">Nome do Aluno</label>
+  <input type="text" id="nomeAluno" placeholder="Ex: João Silva" />
+
+  <div class="notas">
+    <div>
+      <label for="nota1">Nota 1</label>
+      <input type="number" id="nota1" placeholder="0.0" min="0" max="10" step="0.1" />
+    </div>
+    <div>
+      <label for="nota2">Nota 2</label>
+      <input type="number" id="nota2" placeholder="0.0" min="0" max="10" step="0.1" />
+    </div>
+    <div>
+      <label for="nota3">Nota 3</label>
+      <input type="number" id="nota3" placeholder="0.0" min="0" max="10" step="0.1" />
+    </div>
+  </div>
+
+  <p class="erro" id="erroMsg">⚠️ Preencha todos os campos corretamente.</p>
+
+  <button id="btnCalcular">Calcular Média</button>
+
+  <div class="resultado" id="resultado"></div>
+</div>
+
+<script>
+  document.getElementById('btnCalcular').addEventListener('click', function () {
+    const nome  = document.getElementById('nomeAluno').value.trim();
+    const nota1 = Number(document.getElementById('nota1').value);
+    const nota2 = Number(document.getElementById('nota2').value);
+    const nota3 = Number(document.getElementById('nota3').value);
+
+    const vazio =
+      document.getElementById('nota1').value === '' ||
+      document.getElementById('nota2').value === '' ||
+      document.getElementById('nota3').value === '';
+
+    const erroMsg  = document.getElementById('erroMsg');
+    const resultado = document.getElementById('resultado');
+
+    if (!nome || vazio || nota1 < 0 || nota2 < 0 || nota3 < 0 ||
+        nota1 > 10 || nota2 > 10 || nota3 > 10) {
+      erroMsg.style.display = 'block';
+      resultado.style.display = 'none';
+      return;
+    }
+
+    erroMsg.style.display = 'none';
+
+    const media = (nota1 + nota2 + nota3) / 3;
+    const mediaFmt = media.toFixed(2);
+
+    resultado.className = 'resultado';
+
+    let mensagem = '';
+
+    if (media >= 7.0) {
+      resultado.classList.add('aprovado');
+      mensagem = `
+        <strong>Aluno:</strong> ${nome}<br>
+        <strong>Média:</strong> ${mediaFmt}<br>
+        <strong>Situação:</strong> ✅ Aprovado
+      `;
+    } else if (media >= 4.0) {
+      const falta = (10 - media).toFixed(2);
+      resultado.classList.add('exame');
+      mensagem = `
+        <strong>Aluno:</strong> ${nome}<br>
+        <strong>Média:</strong> ${mediaFmt}<br>
+        <strong>Situação:</strong> 📋 Exame Final<br>
+        <strong>Faltam</strong> ${falta} pontos para a média 10.
+      `;
+    } else {
+      resultado.classList.add('reprovado');
+      mensagem = `
+        <strong>Aluno:</strong> ${nome}<br>
+        <strong>Média:</strong> ${mediaFmt}<br>
+        <strong>Situação:</strong> ❌ Reprovado
+      `;
+    }
+
+    resultado.innerHTML = mensagem;
+    resultado.style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
