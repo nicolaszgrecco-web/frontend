@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head><base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/epPlCPGXBXaAPdF0GJ45FOA90AhAyt5y/fb176ffd-5e25-4d5f-9acb-a8da92509990/files/">
+  <meta charset="UTF-8">
+  <title>Card Guard - Validador</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    p.subtitulo {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+      letter-spacing: 2px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2b6cb0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1a4f8a;
+    }
+
+    .painel {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 16px;
+      background-color: #f9f9f9;
+    }
+
+    .painel h2 {
+      margin: 0 0 12px 0;
+      font-size: 15px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 8px;
+    }
+
+    .linha-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .linha-info span:first-child {
+      color: #666;
+    }
+
+    .linha-info span:last-child {
+      font-weight: bold;
+      color: #222;
+    }
+
+    .valido {
+      color: green !important;
+    }
+
+    .invalido {
+      color: red !important;
+    }
+
+    .erro {
+      color: red;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+
+    .oculto {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛡️ Card Guard</h1>
+    <p class="subtitulo">Validador de Segurança Infinity</p>
+
+    <label for="numeroCartao">Número do Cartão:</label>
+    <input type="text" id="numeroCartao" placeholder="0000 0000 0000 0000" maxlength="19">
+    <div id="msgErro" class="erro oculto"></div>
+
+    <button onclick="analisarCartao()">Analisar Cartão</button>
+
+    <div id="painel" class="painel oculto">
+      <h2>📋 Painel de Informações</h2>
+      <div class="linha-info">
+        <span>Status:</span>
+        <span id="resStatus"></span>
+      </div>
+      <div class="linha-info">
+        <span>Bandeira:</span>
+        <span id="resBandeira"></span>
+      </div>
+      <div class="linha-info">
+        <span>Categoria de Setor:</span>
+        <span id="resSetor"></span>
+      </div>
+      <div class="linha-info">
+        <span>Banco Emissor:</span>
+        <span id="resBanco"></span>
+      </div>
+      <div class="linha-info">
+        <span>Tipo de Produto:</span>
+        <span id="resProduto"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // formata o input enquanto digita
+    document.getElementById('numeroCartao').addEventListener('input', function () {
+      let val = this.value.replace(/\D/g, '').substring(0, 16);
+      this.value = val.replace(/(.{4})/g, '$1 ').trim();
+    });
+
+    function luhn(numero) {
+      let digits = numero.split('').reverse().map(Number);
+      let soma = 0;
+      for (let i = 0; i < digits.length; i++) {
+        let d = digits[i];
+        if (i % 2 === 1) {
+          d = d * 2;
+          if (d > 9) d -= 9;
+        }
+        soma += d;
+      }
+      return soma % 10 === 0;
+    }
+
+    function getBandeira(numero) {
+      if (/^4/.test(numero)) return 'Visa';
+      if (/^5[1-5]/.test(numero) || /^2(2[2-9][1-9]|[3-6]\d{2}|7[01]\d|720)/.test(numero)) return 'Mastercard';
+      if (/^3[47]/.test(numero)) return 'American Express';
+      if (/^6(?:011|5)/.test(numero)) return 'Discover';
+      if (/^(?:2131|1800|35\d{3})/.test(numero)) return 'JCB';
+      if (/^36/.test(numero)) return 'Diners Club';
+      if (/^(606282|3841)/.test(numero)) return 'Hipercard';
+      if (/^(384100|384140|384160|606282|637095|637568|637599|637609|637612)/.test(numero)) return 'Hipercard';
+      if (/^(4011|4312|4389|4514|4576|5041|5066|5090|6277|6362|6363|650|6516|6550)/.test(numero)) return 'Elo';
+      return 'Desconhecida';
+    }
+
+    function getSetor(primeiroDigito) {
+      const setores = {
+        '1': 'Aéreo e Financeiro',
+        '2': 'Aéreo e Financeiro',
+        '3': 'Viagens e Entretenimento',
+        '4': 'Bancário e Financeiro',
+        '5': 'Bancário e Financeiro',
+        '6': 'Merchandising e Bancário',
+        '7': 'Petróleo e Combustíveis',
+        '8': 'Saúde e Telecomunicações',
+        '9': 'Governo e Nacional'
+      };
+      return setores[primeiroDigito] || 'Não identificado';
+    }
+
+    function getBanco(numero) {
+      const prefixos = {
+        '400000': 'Bank of America',
+        '400115': 'Citibank',
+        '411111': 'Banco do Brasil',
+        '424242': 'JP Morgan Chase',
+        '431274': 'Bradesco',
+        '451416': 'Itaú Unibanco',
+        '471707': 'Santander',
+        '489429': 'Caixa Econômica Federal',
+        '510510': 'Mastercard Genérico',
+        '520082': 'Nubank',
+        '523572': 'Bradesco',
+        '535143': 'Itaú Unibanco',
+        '541333': 'Santander',
+        '555555': 'HSBC',
+        '601100': 'Discover Bank',
+        '606282': 'Hipercard/Itaú'
+      };
+
+      for (let prefix of Object.keys(prefixos).sort((a, b) => b.length - a.length)) {
+        if (numero.startsWith(prefix)) return prefixos[prefix];
+      }
+
+      // fallback por bandeira
+      const bandeira = getBandeira(numero);
+      const bancosBandeira = {
+        'Visa': 'Emissor Visa não identificado',
+        'Mastercard': 'Emissor Mastercard não identificado',
+        'American Express': 'American Express',
+        'Elo': 'Emissor Elo não identificado',
+        'Hipercard': 'Hipercard / Itaú'
+      };
+      return bancosBandeira[bandeira] || 'Banco não identificado';
+    }
+
+    function getProduto(digitos6a8) {
+      const cod = parseInt(digitos6a8);
+      if (cod >= 600 && cod <= 620) return 'Pré-pago';
+      if (cod >= 621 && cod <= 650) return 'Débito';
+      if (cod >= 651 && cod <= 699) return 'Crédito';
+      return 'Não identificado';
+    }
+
+    function analisarCartao() {
+      const input = document.getElementById('numeroCartao').value;
+      const numero = input.replace(/[\s.]/g, '');
+      const msgErro = document.getElementById('msgErro');
+      const painel = document.getElementById('painel');
+
+      msgErro.classList.add('oculto');
+      msgErro.textContent = '';
+      painel.classList.add('oculto');
+
+      if (!/^\d+$/.test(numero)) {
+        msgErro.textContent = '⚠️ Digite apenas números (espaços são permitidos).';
+        msgErro.classList.remove('oculto');
+        return;
+      }
+
+      if (numero.length < 13 || numero.length > 16) {
+        msgErro.textContent = '⚠️ O número deve ter entre 13 e 16 dígitos.';
+        msgErro.classList.remove('oculto');
+        return;
+      }
+
+      const valido = luhn(numero);
+      const bandeira = getBandeira(numero);
+      const setor = getSetor(numero[0]);
+      const banco = getBanco(numero);
+      const produto = getProduto(numero.substring(5, 8));
+
+      const statusEl = document.getElementById('resStatus');
+      statusEl.textContent = valido ? '✅ Válido' : '❌ Inválido';
+      statusEl.className = valido ? 'valido' : 'invalido';
+
+      document.getElementById('resBandeira').textContent = bandeira;
+      document.getElementById('resSetor').textContent = setor;
+      document.getElementById('resBanco').textContent = banco;
+      document.getElementById('resProduto').textContent = produto;
+
+      painel.classList.remove('oculto');
+    }
+  </script>
+</body>
+</html>
+</thinking>
